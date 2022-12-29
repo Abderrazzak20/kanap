@@ -2,19 +2,26 @@ const url = "http://localhost:3000/api/products"
 fetch(url).then(risposta => risposta.json()).then(data => addproduct(data))
 
 function addproduct(data) {
-    console.log(data)
-    const id = data[0]._id
-    const imageurl = data[0].imageUrl
-    const altTxto = data[0].altTxt 
+   data.forEach((elemento) => {
+      console.log("elemento", elemento)
+    const id = data._id
+    const imageurl = elemento.imageUrl
+    const altTxto = elemento.altTxt 
+   const nome = elemento.name
+    const Description = elemento.description     
    const anchor= makeanchor(id);
    const article = makearticle()
    const image = makeimage(imageurl,altTxto) 
-    const nome = data[0].name
    const h3 = makeh3(nome)
-   const Description = data[0].description
    const p = makeparagraphe(Description)
-   appendChildren(anchor,article,image,h3,p)
-  
+   appendChildren(anchor,article)
+   appendToArticle(image,h3,p,article) 
+
+
+   })
+
+
+    
    
 }
 function makeanchor(id){
@@ -24,15 +31,16 @@ anchor.a = "bello figo"
 return anchor
 }
 
-function appendChildren(anchor,article,image,h3,p){
+function appendChildren(anchor,article){
   const items = document.getElementById("items")
     items.appendChild(anchor)  
-    anchor.appendChild(article) 
-    article.appendChild(image)
-    article.appendChild(h3)
-    article.appendChild(p)
-
-
+    anchor.appendChild(article)
+}
+function appendToArticle(image,h3,p,article){
+   article.appendChild(image)
+   article.appendChild(h3)
+   article.appendChild(p)
+   
 }
 function makearticle(){
 const article = document.createElement("article")
