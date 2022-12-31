@@ -3,8 +3,8 @@ fetch(url).then(risposta => risposta.json()).then(data => addproduct(data))
 
 function addproduct(data) {
    data.forEach((elemento) => {
-      console.log("elemento", elemento)
-    const id = data._id
+
+    const id = elemento._id
     const imageurl = elemento.imageUrl
     const altTxto = elemento.altTxt 
    const nome = elemento.name
@@ -16,17 +16,11 @@ function addproduct(data) {
    const p = makeparagraphe(Description)
    appendChildren(anchor,article)
    appendToArticle(image,h3,p,article) 
-
-
-   })
-
-
-    
-   
+ });  
 }
 function makeanchor(id){
 const anchor = document.createElement("a")
-anchor.href = "./product.html?id="
+anchor.href = "./product.html?id="+id
 anchor.a = "bello figo"
 return anchor
 }
