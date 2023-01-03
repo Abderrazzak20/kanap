@@ -1,7 +1,7 @@
 const url = "http://localhost:3000/api/products"
-fetch(url).then(risposta => risposta.json()).then(data => addproduct(data))
+fetch(url).then(risposta => risposta.json()).then(data => addProducts(data))
 
-function addproduct(data) {
+function addProducts(data) {
    data.forEach((elemento) => {
 
     const id = elemento._id
@@ -21,7 +21,6 @@ function addproduct(data) {
 function makeanchor(id){
 const anchor = document.createElement("a")
 anchor.href = "./product.html?id="+id
-anchor.a = "bello figo"
 return anchor
 }
 

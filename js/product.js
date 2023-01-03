@@ -19,6 +19,7 @@ function headData(element){
     const h3 = makePrice(price)
     const p = makeparagraphe(description)
    makeColori(colors)
+   ProductsButton(price,imageUrl,altTxt,id,name)
 
     
     appendChildren(image,title,h3,p)
@@ -42,6 +43,7 @@ function appendChildren(image,title,h3,p){
     parentTitle.appendChild(title)
     parentPrice.appendChild(h3)
     parentPararaphe.appendChild(p)
+    
    
   
 
@@ -64,15 +66,46 @@ function makeparagraphe(description){
     p.textContent = description
     return p
 }
+
 function makeColori(colors){
-colorLoop(colors)
-}
-function colorLoop(colors){
     const Select = document.getElementById("colors") 
     colors.forEach((color) => {
      const option = document.createElement("option")  
     option.value = color
     option.textContent = color
         Select.appendChild(option)    
-})
+}) 
 }
+
+    function ProductsButton(price,imageUrl,altTxt, id,name){
+    const button = document.getElementById("addToCart")
+    button.addEventListener("click", (e) => {
+    const color = document.getElementById("colors").value
+    const quantity = document.getElementById("quantity").value
+    controlButton(quantity,color)
+   
+    const data = {
+        id : id  ,
+        color : color,
+        quantity : Number(quantity),
+        price : (price * quantity),
+        image : imageUrl,
+        altTxt : altTxt,
+        name : name,
+        }
+    localStorage.setItem(productID, JSON.stringify(data))
+      
+        })
+     
+    }
+
+
+    function controlButton(quantity,color){
+        if(quantity == null || quantity == 0 || color == null || color == ""){
+            alert("please choisir color or quantity")  
+        }
+        else 
+        window.location.href = "cart.html"
+       
+        
+    }
