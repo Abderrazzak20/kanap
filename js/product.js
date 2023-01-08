@@ -83,7 +83,6 @@ function makeColori(colors){
     const color = document.getElementById("colors").value
     const quantity = document.getElementById("quantity").value
     controlButton(quantity,color)
-   
     const data = {
         id : id  ,
         color : color,
@@ -93,10 +92,8 @@ function makeColori(colors){
         altTxt : altTxt,
         name : name,
         }
-    localStorage.setItem(productID, JSON.stringify(data))
-      
+        localStorage.setItem(productID, JSON.stringify(data))
         })
-     
     }
 
 
@@ -105,7 +102,5 @@ function makeColori(colors){
             alert("please choisir color or quantity")  
         }
         else 
-        window.location.href = "cart.html"
-       
-        
+        window.location.href = "cart.html" 
     }
