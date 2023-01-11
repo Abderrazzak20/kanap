@@ -1,19 +1,19 @@
 
 const PageCarte = []
 RecuperInformation()
-PageCarte.forEach((element) =>  displayElement(element))
+PageCarte.forEach((element) =>   DisplayElement(element).then(element => console.log(element)
+))
+
 
 
 function RecuperInformation(){  
-const length = localStorage.length     
-for (let i = 0; i < length; i++) {
-    const element = localStorage.getItem(localStorage.key(i))
-    const elementParse = JSON.parse(element) 
+    const elemento = localStorage.getItem(localStorage.key("panier"))
+    const elementParse = JSON.parse(elemento) 
     PageCarte.push(elementParse) 
-}
+
 }
 
-function displayElement(element){
+function DisplayElement(element){
     const altTxt = element.altTxt
     const colors = element.color
     const imageUrl = element.image
@@ -21,28 +21,29 @@ function displayElement(element){
     const price = element.price
     const id = element.id
     const quantity = element.quantity
-console.log(quantity)
-const image = makeimage(imageUrl,altTxt)
-const article = Makearticle(id,colors)
- const TotalQ = TotalQuantity(quantity)
+    
 
-const sistema = setting(quantity)
+const image = MakeImage(imageUrl,altTxt)
+const article = Makearticle(id,colors)
+
+const sistema = Setting(quantity)
 const Paragraphe = Description(name,colors,price,sistema)
-appendChildArticle(article)
+AppendChildArticle(article)
 appendChildToArticle(article,image,Paragraphe)
 
 }
 
-function makeimage(imageUrl,altTxt){
+function MakeImage(imageUrl,altTxt){
     const div = document.createElement("div")
     div.classList.add("cart__item__img")
     const image = document.createElement("img")
     image.src = imageUrl
+  
     image.alt = altTxt
     div.appendChild(image)
     return div
 }
-function appendChildArticle(article){
+function AppendChildArticle(article){
 const parentArticle = document.getElementById("cart__items")
 parentArticle.appendChild(article)
 }
@@ -52,6 +53,7 @@ function Makearticle(id,colors){
     article.classList.add("cart__item")
     article.dataset.id = id
     article.dataset.color = colors
+    
     return article
 }
 function appendChildToArticle(article,image,Paragraphe){
@@ -66,7 +68,7 @@ function Description(name,colors,price,sistema){
     const divParent = document.createElement("div")
     divParent.classList.add("cart__item__content")
     div.classList.add("cart__item__content__description")
-    const h2 = title(name)
+    const h2 = Title(name)
     const colore = ParagrapheColor(colors)
    const prezzo = ParagraphePrice(price)
    divParent.appendChild(div)
@@ -77,7 +79,7 @@ function Description(name,colors,price,sistema){
     return divParent
 
 }
-function title(name){
+function Title(name){
     const h2 = document.createElement("h2")
     h2.textContent = name
     return h2
@@ -93,27 +95,29 @@ function ParagraphePrice(price){
     return prezzo
 }
 
-function setting(quantity){
+function Setting(quantity){
     const div = document.createElement("div")
     div.classList.add("cart__item__content__settings")
-    const quantita = settingQuantity(quantity)
+    const quantita = SettingQuantity(quantity)
     const PDelete = SettingDelete()
     div.appendChild(quantita)
     div.appendChild(PDelete)
 return div
 }
 
-function settingQuantity(quantity){
+function SettingQuantity(quantity){
     const divQuantity = document.createElement("div")
     divQuantity.classList.add("cart__item__content__settings__quantity")
     const Paragraphe = document.createElement('p')
-    Paragraphe.textContent = ('Qté : '+quantity) 
+    Paragraphe.textContent = ('Qté : ') 
 const input = document.createElement("input")
 input.type = "number"
 input.classList.add("itemQuantity")
 input.name = ("itemQuantity")
+input.value = (quantity)
 input.min = "1"
 input.max = "100"
+const Totale = document.getElementById("totalQuantity")
  divQuantity.appendChild(Paragraphe)
 divQuantity.appendChild(input)
    
@@ -130,7 +134,7 @@ function SettingDelete(){
     return divDelete
 }
 
-function TotalQuantity(quantity){
+function TotalQuantity(input){
     const Totale = document.getElementById("totalQuantity")
-    Totale.textContent= (quantity)
+    Totale.textContent= (input.value)
 }

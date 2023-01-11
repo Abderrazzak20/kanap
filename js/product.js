@@ -92,8 +92,11 @@ function makeColori(colors){
         altTxt : altTxt,
         name : name,
         }
-        localStorage.setItem(productID, JSON.stringify(data))
-        })
+
+    ControlPanier(data)
+        }
+        
+        )
     }
 
 
@@ -101,6 +104,24 @@ function makeColori(colors){
         if(quantity == null || quantity == 0 || color == null || color == ""){
             alert("please choisir color or quantity")  
         }
-        else 
-        window.location.href = "cart.html" 
+        else
+        alert("le produit est ajoute")
+
+      
+
+    }
+    
+    
+    function ControlPanier(data){
+        let ProduitDanStorage = JSON.parse(localStorage.getItem("panier"));
+        if(ProduitDanStorage){
+         ProduitDanStorage.push(data)
+     localStorage.setItem("panier",JSON.stringify(ProduitDanStorage))
+         
+        }
+        else{
+         let ProduitDanStorage = []
+         ProduitDanStorage.push(data)
+         localStorage.setItem("panier",JSON.stringify(ProduitDanStorage))
+        }
     }
