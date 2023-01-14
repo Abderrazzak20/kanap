@@ -5,6 +5,7 @@ function addProducts(data) {
    data.forEach((elemento) => {
 
     const id = elemento._id
+   
     const imageurl = elemento.imageUrl
     const altTxto = elemento.altTxt 
    const nome = elemento.name

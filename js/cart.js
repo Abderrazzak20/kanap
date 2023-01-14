@@ -1,8 +1,7 @@
 
 const PageCarte = []
 RecuperInformation()
-PageCarte.forEach((element) =>   DisplayElement(element).then(element => console.log(element)
-))
+PageCarte.forEach(element =>   DisplayElement(element))
 
 
 
@@ -14,23 +13,29 @@ function RecuperInformation(){
 }
 
 function DisplayElement(element){
-    const altTxt = element.altTxt
-    const colors = element.color
-    const imageUrl = element.image
-    const name = element.name
-    const price = element.price
-    const id = element.id
-    const quantity = element.quantity
-    
+    element.forEach(elemento => {
+        
+       
+    const altTxt = elemento.altTxt
+    const colors = elemento.color
+    const imageUrl = elemento.image
+    const name = elemento.name
+    const price = elemento.price
+    const id = elemento.id
+    const quantity = elemento.quantity
+
+
 
 const image = MakeImage(imageUrl,altTxt)
 const article = Makearticle(id,colors)
 
 const sistema = Setting(quantity)
 const Paragraphe = Description(name,colors,price,sistema)
+RecuperPrix()
+
 AppendChildArticle(article)
 appendChildToArticle(article,image,Paragraphe)
-
+});
 }
 
 function MakeImage(imageUrl,altTxt){
@@ -117,7 +122,6 @@ input.name = ("itemQuantity")
 input.value = (quantity)
 input.min = "1"
 input.max = "100"
-const Totale = document.getElementById("totalQuantity")
  divQuantity.appendChild(Paragraphe)
 divQuantity.appendChild(input)
    
@@ -134,7 +138,34 @@ function SettingDelete(){
     return divDelete
 }
 
-function TotalQuantity(input){
-    const Totale = document.getElementById("totalQuantity")
-    Totale.textContent= (input.value)
+
+
+
+function RecuperPrix(){
+    let totalPrice = 0;
+    let Panier = localStorage.getItem("panier")
+    let totalQuantity = 0;
+    CalcoloPanier(Panier,totalPrice,totalQuantity)
+   
+}
+
+function CalcoloPanier(Panier,totalPrice,totalQuantity){
+    if ( null === Panier){
+        Panier = [];
+    }
+    else
+    {
+        Panier =JSON.parse(Panier);  
+    }
+    for (let i = 0; i < Panier.length; i++) {
+       let product =  fetch("http://localhost:3000/api/products/"+Panier[i].id).then(response => {
+        return response.json();
+      
+       })
+       totalPrice +=  Panier[i].price * Panier[i].quantity
+       totalQuantity += Panier[i].quantity
+    }
+    document.getElementById("totalPrice").innerHTML = totalPrice
+    document.getElementById("totalQuantity").innerHTML = totalQuantity 
+    
 }

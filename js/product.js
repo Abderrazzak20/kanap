@@ -94,6 +94,7 @@ function makeColori(colors){
         }
 
     ControlPanier(data)
+    ControloEgalite(ProduitDanStorage,data)
         }
         
         )
@@ -106,9 +107,6 @@ function makeColori(colors){
         }
         else
         alert("le produit est ajoute")
-
-      
-
     }
     
     
@@ -125,3 +123,4 @@ function makeColori(colors){
          localStorage.setItem("panier",JSON.stringify(ProduitDanStorage))
         }
     }
+
