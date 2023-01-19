@@ -94,7 +94,7 @@ function makeColori(colors){
         }
 
     ControlPanier(data)
-    ControloEgalite(ProduitDanStorage,data)
+   
         }
         
         )
@@ -112,15 +112,32 @@ function makeColori(colors){
     
     function ControlPanier(data){
         let ProduitDanStorage = JSON.parse(localStorage.getItem("panier"));
+       
         if(ProduitDanStorage){
-         ProduitDanStorage.push(data)
-     localStorage.setItem("panier",JSON.stringify(ProduitDanStorage))
-         
+           var found = false;
+           
+          
+     for (let i = 0; i < ProduitDanStorage.length; i++) {
+       if (ProduitDanStorage[i].id == data.id && ProduitDanStorage[i].color == data.color) {  
+        ProduitDanStorage[i].quantity += data.quantity;      
+       
+       alert("la quantite est mise a jour")
+       localStorage.setItem("panier",JSON.stringify(ProduitDanStorage))
+      
+          found = true
+       }
+      
+     } 
         }
         else{
-         let ProduitDanStorage = []
-         ProduitDanStorage.push(data)
-         localStorage.setItem("panier",JSON.stringify(ProduitDanStorage))
-        }
+         let ProduitDanStorage = [];
+         ProduitDanStorage.push(data);
+       localStorage.setItem("panier",JSON.stringify(ProduitDanStorage))
+        }  
+        if (found === false){
+        ProduitDanStorage.push(data)
+        localStorage.setItem("panier",JSON.stringify(ProduitDanStorage))
+      }
+
     }
 

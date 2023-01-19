@@ -29,7 +29,7 @@ function DisplayElement(element){
 const image = MakeImage(imageUrl,altTxt)
 const article = Makearticle(id,colors)
 
-const sistema = Setting(quantity)
+const sistema = Setting(quantity,id,colors)
 const Paragraphe = Description(name,colors,price,sistema)
 RecuperPrix()
 
@@ -100,53 +100,86 @@ function ParagraphePrice(price){
     return prezzo
 }
 
-function Setting(quantity){
+function Setting(quantity,id,color){
     const div = document.createElement("div")
     div.classList.add("cart__item__content__settings")
-    const quantita = SettingQuantity(quantity)
-    const PDelete = SettingDelete()
+    const quantita = SettingQuantity(quantity,id)
+    const PDelete = SettingDelete(id,color,div)
     div.appendChild(quantita)
     div.appendChild(PDelete)
 return div
 }
 
-function SettingQuantity(quantity){
+function SettingQuantity(quantity,id){
     const divQuantity = document.createElement("div")
     divQuantity.classList.add("cart__item__content__settings__quantity")
     const Paragraphe = document.createElement('p')
     Paragraphe.textContent = ('Qté : ') 
+    const valoreId = id
+   
 const input = document.createElement("input")
 input.type = "number"
 input.classList.add("itemQuantity")
 input.name = ("itemQuantity")
-input.value = (quantity)
+input.value = quantity
+
 input.min = "1"
-input.max = "100"
+input.max = "100";
+
+input.addEventListener("input", () =>  NewV(valoreId,input.value))
+
  divQuantity.appendChild(Paragraphe)
 divQuantity.appendChild(input)
    
     return divQuantity
 }
 
-function SettingDelete(){
+
+
+function NewV(id,input){
+  let Panier = JSON.parse(localStorage.getItem("panier"));
+const findP = Panier.find((item)=> item.id === id)
+findP.quantity = Number(input)
+Panier.quantity = findP.quantity
+localStorage.setItem("panier",JSON.stringify(Panier))
+
+ RecuperPrix()
+
+}
+
+function SettingDelete(id,color,div){
     const divDelete = document.createElement("div")
     divDelete.classList.add("cart__item__content__settings__delete")
     const p = document.createElement("p")
     p.classList.add("deleteItem")
     p.textContent= 'Supprimer'
     divDelete.appendChild(p)
+    const a =  document.createElement("a")
+    
+  
+ 
+    divDelete.addEventListener("click",() => DivSupprime(id,color,a,div))
+       a.closest("article").remove
+  
+
     return divDelete
 }
 
 
+function DivSupprime(id,color,a,div){
 
+let Panier = JSON.parse(localStorage.getItem("panier"));
+    const ElementoSupprime = Panier.find((item)=> item.id === id && item.color == color)
+  RecuperPrix()
+ console.log (a)   
+}
 
 function RecuperPrix(){
     let totalPrice = 0;
     let Panier = localStorage.getItem("panier")
     let totalQuantity = 0;
     CalcoloPanier(Panier,totalPrice,totalQuantity)
-   
+   return (totalPrice,totalQuantity)
 }
 
 function CalcoloPanier(Panier,totalPrice,totalQuantity){
@@ -154,8 +187,9 @@ function CalcoloPanier(Panier,totalPrice,totalQuantity){
         Panier = [];
     }
     else
-    {
+    {  
         Panier =JSON.parse(Panier);  
+        
     }
     for (let i = 0; i < Panier.length; i++) {
        let product =  fetch("http://localhost:3000/api/products/"+Panier[i].id).then(response => {
@@ -166,6 +200,7 @@ function CalcoloPanier(Panier,totalPrice,totalQuantity){
        totalQuantity += Panier[i].quantity
     }
     document.getElementById("totalPrice").innerHTML = totalPrice
-    document.getElementById("totalQuantity").innerHTML = totalQuantity 
-    
+    document.getElementById("totalQuantity").innerHTML = totalQuantity   
 }
+
+
